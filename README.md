@@ -2,6 +2,8 @@
 
 Module for [MagicMirror²](https://github.com/MichMich/MagicMirror/), to show an alert banner based on aurora activity alerts provided by AuroraWatch UK https://aurorawatch.lancs.ac.uk/
 
+The module configuration allows you to choose which level of alerts to show, based on the levels described here: https://aurorawatch.lancs.ac.uk/alerts/
+
 This is not an official AuroraWatch UK app and is not endorsed or supported by AuroraWatch UK.
 
 ![Alt text](/img/demo.png "A preview of the MMM-AuroraWatchUK module showing a yellow alert.")
