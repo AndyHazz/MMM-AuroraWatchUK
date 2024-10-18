@@ -4,7 +4,7 @@ const xml2js = require("xml2js");
 
 module.exports = NodeHelper.create({
     start: function () {
-        console.log("MMM-AuroraWatch helper started...");
+        console.log("MMM-AuroraWatchUK helper started...");
         this.statusDescriptions = {}; // Initialize an object to store status descriptions
         this.fetchStatusDescriptions(); // Fetch the status descriptions when the module starts
     },
