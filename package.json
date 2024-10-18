@@ -1,0 +1,11 @@
+{
+  "name": "MMM-AuroraWatch",
+  "version": "1.0.0",
+  "description": "A MagicMirror module to display Aurora Watch status",
+  "main": "MMM-AuroraWatch.js",
+  "scripts": {},
+  "dependencies": {
+    "axios": "^0.21.4",
+    "xml2js": "^0.4.23"
+  }
+}
