@@ -1,12 +1,14 @@
 # MMM-AuroraWatchUK
 
+![Alt text](/img/demo.png "A preview of the MMM-AuroraWatchUK module showing a yellow alert.")
+
 Module for [MagicMirror²](https://github.com/MichMich/MagicMirror/), to show an alert banner based on aurora activity alerts provided by AuroraWatch UK https://aurorawatch.lancs.ac.uk/
 
 The module configuration allows you to choose which level of alerts to show, based on the levels described here: https://aurorawatch.lancs.ac.uk/alerts/
 
-This is not an official AuroraWatch UK app and is not endorsed or supported by AuroraWatch UK.
+If you add an OpenWeather API key (available from here: https://home.openweathermap.org/users/sign_up - a free account is all you need for current weather data), and provide your lat/long coordinates, you can have the alerts only show when it's dark and/or only when below a set % of cloud cover.
 
-![Alt text](/img/demo.png "A preview of the MMM-AuroraWatchUK module showing a yellow alert.")
+This is not an official AuroraWatch UK app and is not endorsed or supported by AuroraWatch UK.
 
 ## Installing
 
@@ -26,6 +28,12 @@ Add this configuration into `config.js` file's
             position: "top_bar",
             config: {
                 displayStatuses: ["green", "yellow", "amber", "red"], // Configurable statuses to display, see https://aurorawatch.lancs.ac.uk/alerts/ for descriptions
+                weatherApiKey: "", // OpenWeathermap API key (optional, for clear skies and sunset check)
+                // settings below only apply if you have an api key
+                onlyDuringNight: false, // true = only show alerts between sunset and sunrise
+                onlyDuringClearSkies: 100, // only show alerts if cloudiness % less than given value
+                latitude: 53.883553, // Default location (London)
+                longitude: -1.260889, // Default location (London)
             }
         },
 ```
