@@ -25,21 +25,16 @@ Module.register("MMM-AuroraWatchUK", {
 
         // Schedule regular status updates
         setInterval(() => {
-            this.getStatus();
-        }, this.config.updateInterval);
-
-        // Schedule regular weather updates (e.g., every 30 minutes)
-        setInterval(() => {
             if (this.config.weatherApiKey) {
                 this.getWeatherData();
             }
-        }, 30 * 60 * 1000); // 30 minutes
+            this.getStatus();
+        }, this.config.updateInterval);
     },
 
     // Function to fetch weather data from OpenWeatherMap
     getWeatherData: function () {
         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${this.config.latitude}&lon=${this.config.longitude}&appid=${this.config.weatherApiKey}&units=metric`;
-        console.log("Fetching weather data.");
         fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -48,7 +43,6 @@ Module.register("MMM-AuroraWatchUK", {
                     sunset: data.sys.sunset * 1000,
                     cloudiness: data.clouds.all
                 };
-                Log.info("Weather data fetched: ", this.weatherData);
                 this.getStatus(); // Re-render the module with the new weather data
             })
             .catch(error => Log.error("Error fetching weather data: " + error));
@@ -66,38 +60,31 @@ Module.register("MMM-AuroraWatchUK", {
     // Function to check if the sky is clear enough
     isClearSky: function () {
         if (this.weatherData) {
-            Log.info("Weather data updated: Cloudiness " + this.weatherData.cloudiness + "%");
-            return this.weatherData.cloudiness < this.config.onlyDuringClearSkies;
+            return this.weatherData.cloudiness <= this.config.onlyDuringClearSkies;
         }
         return false;
     },
 
     // Function to fetch aurora status and apply weather conditions
     getStatus: function () {
-        Log.info("Fetching Aurora status...");
-
-        Log.info(this.config.weatherApiKey)
-
         //only do the weather and sunrise checks if we have an api key
         if (this.config.weatherApiKey) {
             // Ensure weather data is available before checking conditions
             if (!this.weatherData) {
-                Log.info("Weather data not available yet. Waiting for weather update...");
                 return; // Skip the status check until weather data is fetched
             }
 
+            // Check if the sky is clear (if enabled in config)
+            if (this.config.onlyDuringClearSkies && !this.isClearSky()) {
+                Log.info("Not checking aurora status: Sky is not clear - " + this.weatherData.cloudiness + "% cloud cover. Hoping for " + this.config.onlyDuringClearSkies + "%");
+                return;
+            }
+            
             // Check if it's night time (if enabled in config)
             if (this.config.onlyDuringNight && !this.isNightTime()) {
                 Log.info("Not checking aurora status: It's not dark yet.");
                 return;
             }
-
-            // Check if the sky is clear (if enabled in config)
-            if (this.config.onlyDuringClearSkies && !this.isClearSky()) {
-                Log.info("Not checking aurora status: Sky is not clear - " + this.weatherData.cloudiness + "% cloud cover. Hoping for " + this.onlyDuringClearSkies + "%");
-                return;
-            }
-
         }
 
         // Get and display Aurora status if all conditions are met
