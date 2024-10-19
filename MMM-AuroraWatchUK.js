@@ -6,7 +6,7 @@ Module.register("MMM-AuroraWatchUK", {
         apiUrl: "https://aurorawatch-api.lancs.ac.uk/0.2/status/current-status.xml",
         displayStatuses: ["green", "yellow", "amber", "red"],
         onlyDuringNight: false,
-        onlyDuringClearSkies: 101,
+        onlyDuringClearSkies: 100,
         latitude: 51.5074,  // Default: London
         longitude: -0.1278, // Default: London
         weatherApiKey: "",  // Your OpenWeatherMap API key
