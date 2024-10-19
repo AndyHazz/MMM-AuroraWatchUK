@@ -115,7 +115,7 @@ Module.register("MMM-AuroraWatchUK", {
                     <img src="https://aurorawatch.lancs.ac.uk/img/logo_w_300.png" alt="AuroraWatch Logo" style="width: 150px; height: auto;">
                     <div style="flex-grow: 1; text-align: center; color: ${color};">
                         <strong>Status: ${this.currentStatus.status}</strong>
-                        <span>(${descriptionText})</span><br>
+                        <span>(${descriptionText})</span>
                         <span>${meaningText}</span>
                     </div>
                     <img src="https://aurorawatch.lancs.ac.uk/img/logo_w_300.png" alt="AuroraWatch Logo" style="width: 150px; height: auto;">
