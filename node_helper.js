@@ -4,15 +4,9 @@ const xml2js = require("xml2js");
 
 module.exports = NodeHelper.create({
     start: function () {
-        console.log("MMM-AuroraWatchUK helper started...");
+        console.log("MMM-AuroraWatch helper started...");
         this.statusDescriptions = {}; // Initialize an object to store status descriptions
         this.fetchStatusDescriptions(); // Fetch the status descriptions when the module starts
-    },
-
-    socketNotificationReceived: function (notification, payload) {
-        if (notification === "GET_STATUS") {
-            this.getStatus(payload);
-        }
     },
 
     fetchStatusDescriptions: async function () {
@@ -29,10 +23,14 @@ module.exports = NodeHelper.create({
                     meaning: status.meaning[0],
                 };
             });
-
-            console.log("Status Descriptions Loaded:", this.statusDescriptions); // Log the loaded descriptions
         } catch (error) {
-            console.error("Error fetching status descriptions:", error);
+            console.error("Error fetching AuroraWatch UK status descriptions:", error);
+        }
+    },
+
+    socketNotificationReceived: function (notification, payload) {
+        if (notification === "GET_STATUS") {
+            this.getStatus(payload);
         }
     },
 
