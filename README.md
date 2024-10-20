@@ -28,15 +28,35 @@ Add this configuration into `config.js` file's
             position: "top_bar",
             config: {
                 displayStatuses: ["green", "yellow", "amber", "red"], // Configurable statuses to display, see https://aurorawatch.lancs.ac.uk/alerts/ for descriptions
+                showAlertMeaning: true, // set false to hide the longer description text
                 weatherApiKey: "", // OpenWeathermap API key (optional, for clear skies and sunset check)
                 // settings below only apply if you have an api key
                 onlyDuringNight: false, // true = only show alerts between sunset and sunrise
                 onlyDuringClearSkies: 100, // only show alerts if cloudiness % less than given value
+                displayCloudCover: true, // include cloudcover text in the alert message
                 latitude: 53.883553, // Default location (London)
                 longitude: -1.260889, // Default location (London)
             }
         },
 ```
+
+Once you're happy it's working, the recomended configuration would only show amber and red alerts, at night, when cloud cover is less than 20%
+
+```json5
+        {
+            module: "MMM-AuroraWatchUK",
+            position: "top_bar",
+            config: {
+                displayStatuses: ["amber", "red"],
+                weatherApiKey: "",
+                onlyDuringNight: true,
+                onlyDuringClearSkies: 20,
+                latitude: 53.883553,
+                longitude: -1.260889,
+            }
+        },
+```
+
 ## Updating
 Go to the module’s folder inside MagicMirror modules folder and pull the latest version from GitHub and install:
 ```
