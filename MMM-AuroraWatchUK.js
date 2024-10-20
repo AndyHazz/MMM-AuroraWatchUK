@@ -13,6 +13,10 @@ Module.register("MMM-AuroraWatchUK", {
         weatherApiKey: "",  // Your OpenWeatherMap API key
     },
 
+    getStyles: function () {
+        return ["MMM-AuroraWatchUK.css"];
+    },
+
     // Start function
     start: function () {
         Log.info("Starting module: " + this.name);
@@ -133,6 +137,10 @@ Module.register("MMM-AuroraWatchUK", {
                 </div>
             `;
             wrapper.className = "status-bar"; // Add a class for styling
+            wrapper.classList.add("has-content");
+
+        } else {
+            wrapper.classList.remove("has-content");
         }
 
         return wrapper;
