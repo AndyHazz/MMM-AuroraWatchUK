@@ -2,11 +2,12 @@ Module.register("MMM-AuroraWatchUK", {
 
     // Default module config
     defaults: {
-        updateInterval: 5 * 60 * 1000, // 5 minutes
         apiUrl: "https://aurorawatch-api.lancs.ac.uk/0.2/status/current-status.xml",
         displayStatuses: ["green", "yellow", "amber", "red"],
+        showAlertMeaning: true,
         onlyDuringNight: false,
-        onlyDuringClearSkies: 100,
+        onlyDuringClearSkies: 100, // set to 100 to always show, recommended 20 to alert when cloud cover is 20% or less
+        displayCloudCover: true,
         latitude: 51.5074,  // Default: London
         longitude: -0.1278, // Default: London
         weatherApiKey: "",  // Your OpenWeatherMap API key
@@ -29,7 +30,7 @@ Module.register("MMM-AuroraWatchUK", {
                 this.getWeatherData();
             }
             this.getStatus();
-        }, this.config.updateInterval);
+        }, 300000); // Update every 5 mins
     },
 
     // Function to fetch weather data from OpenWeatherMap
@@ -79,7 +80,7 @@ Module.register("MMM-AuroraWatchUK", {
                 Log.info("Not checking aurora status: Sky is not clear - " + this.weatherData.cloudiness + "% cloud cover. Hoping for " + this.config.onlyDuringClearSkies + "%");
                 return;
             }
-            
+
             // Check if it's night time (if enabled in config)
             if (this.config.onlyDuringNight && !this.isNightTime()) {
                 Log.info("Not checking aurora status: It's not dark yet.");
@@ -108,15 +109,25 @@ Module.register("MMM-AuroraWatchUK", {
 
             // Access the text from the description and meaning
             const descriptionText = description._; // Access the actual description text
-            const meaningText = meaning._; // Access the actual meaning text
+
+            let meaningText = "";
+            if (this.config.showAlertMeaning == true) {
+                meaningText = meaning._; // Access the actual meaning text
+            }
+
+            let cloudCoverText = "";
+            if (this.config.onlyDuringClearSkies && this.config.weatherApiKey && this.config.displayCloudCover) {
+                cloudCoverText = this.weatherData.cloudiness + "% cloud cover";
+            }
 
             wrapper.innerHTML = `
                 <div style="display: flex; align-items: center; justify-content: space-between; background-color: black; padding: 10px;">
                     <img src="https://aurorawatch.lancs.ac.uk/img/logo_w_300.png" alt="AuroraWatch Logo" style="width: 150px; height: auto;">
                     <div style="flex-grow: 1; text-align: center; color: ${color};">
-                        <strong>Status: ${this.currentStatus.status}</strong>
-                        <span>(${descriptionText})</span>
-                        <span>${meaningText}</span>
+                        <span class="MMM-AuroraWatchUK-status"><strong>Status: ${this.currentStatus.status}</strong></span>
+                        <span  class="MMM-AuroraWatchUK-description">(${descriptionText})</span>
+                        <spanclass="MMM-AuroraWatchUK-meaning">${meaningText}</span>
+                        <span class="MMM-AuroraWatchUK-cloudCover">(${cloudCoverText})</span>
                     </div>
                     <img src="https://aurorawatch.lancs.ac.uk/img/logo_w_300.png" alt="AuroraWatch Logo" style="width: 150px; height: auto;">
                 </div>
