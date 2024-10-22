@@ -121,7 +121,7 @@ Module.register("MMM-AuroraWatchUK", {
 
             let cloudCoverText = "";
             if (this.config.onlyDuringClearSkies && this.config.weatherApiKey && this.config.displayCloudCover) {
-                cloudCoverText = this.weatherData.cloudiness + "% cloud cover";
+                cloudCoverText = " - " + this.weatherData.cloudiness + "% cloud cover";
             }
 
             wrapper.innerHTML = `
@@ -129,9 +129,8 @@ Module.register("MMM-AuroraWatchUK", {
                     <img src="https://aurorawatch.lancs.ac.uk/img/logo_w_300.png" alt="AuroraWatch Logo" style="width: 150px; height: auto;">
                     <div style="flex-grow: 1; text-align: center; color: ${color};">
                         <span class="MMM-AuroraWatchUK-status"><strong>Status: ${this.currentStatus.status}</strong></span>
-                        <span class="MMM-AuroraWatchUK-description">(${descriptionText})</span>
-                        <span class="MMM-AuroraWatchUK-meaning">${meaningText}</span>
-                        <span class="MMM-AuroraWatchUK-cloudCover">(${cloudCoverText})</span>
+                        <span class="MMM-AuroraWatchUK-description">(${descriptionText}${cloudCoverText})</span></br>
+                        <span class="MMM-AuroraWatchUK-meaning xsmall light">${meaningText}</span>
                     </div>
                     <img src="https://aurorawatch.lancs.ac.uk/img/logo_w_300.png" alt="AuroraWatch Logo" style="width: 150px; height: auto;">
                 </div>
