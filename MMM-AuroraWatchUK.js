@@ -76,18 +76,24 @@ Module.register("MMM-AuroraWatchUK", {
         if (this.config.weatherApiKey) {
             // Ensure weather data is available before checking conditions
             if (!this.weatherData) {
+                this.currentStatus = null;
+                this.updateDom();
                 return; // Skip the status check until weather data is fetched
             }
 
             // Check if the sky is clear (if enabled in config)
             if (this.config.onlyDuringClearSkies && !this.isClearSky()) {
                 Log.info("Not checking aurora status: Sky is not clear - " + this.weatherData.cloudiness + "% cloud cover. Hoping for " + this.config.onlyDuringClearSkies + "%");
+                this.currentStatus = null;
+                this.updateDom();
                 return;
             }
 
             // Check if it's night time (if enabled in config)
             if (this.config.onlyDuringNight && !this.isNightTime()) {
                 Log.info("Not checking aurora status: It's not dark yet.");
+                this.currentStatus = null;
+                this.updateDom();
                 return;
             }
         }
